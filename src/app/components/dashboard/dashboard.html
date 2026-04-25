@@ -1,0 +1,48 @@
+<div class="dashboard-layout">
+  
+  <aside class="sidebar">
+    <div class="brand">
+      <h2>Academic Portal</h2>
+    </div>
+    <nav>
+      <ul>
+        <li class="active"><a href="#">My Report Card</a></li>
+        <li><a href="#">Enroll in Courses</a></li>
+        <li><a href="#">Profile Settings</a></li>
+      </ul>
+    </nav>
+    <div class="logout-container">
+      <button class="logout-btn">Logout</button>
+    </div>
+  </aside>
+
+  <main class="content">
+    <header>
+      <h1>Student Dashboard</h1>
+      <p>Welcome back! Here is your current academic progress.</p>
+    </header>
+
+    <section class="card">
+      <h3>My Grades</h3>
+      
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Course Name</th>
+            <th>Credits</th>
+            <th>Final Grade</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let record of mockGrades">
+            <td>{{ record.courseName }}</td>
+            <td>{{ record.credits }}</td>
+            <td><strong>{{ record.grade }}</strong></td>
+          </tr>
+        </tbody>
+      </table>
+      
+    </section>
+  </main>
+
+</div>
