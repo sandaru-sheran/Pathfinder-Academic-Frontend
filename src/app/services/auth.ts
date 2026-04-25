@@ -13,7 +13,7 @@ export interface LoginRequest {
 })
 export class AuthService {
 
-  private apiUrl = 'http://localhost:8080/api/user'; 
+  private apiUrl = 'http://localhost:8080/api/user';
 
   constructor(private http: HttpClient) { }
 
@@ -68,7 +68,7 @@ export class AuthService {
         return decodedToken.authorities[0];
       }
     }
-    return null; 
+    return null;
   }
 
   // Simple check if a token exists at all

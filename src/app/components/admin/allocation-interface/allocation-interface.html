@@ -1,0 +1,60 @@
+<div class="dashboard-container">
+  <header>
+    <h2>Lecturer Allocation</h2>
+    <p>Assign lecturers to teach specific courses for an upcoming semester.</p>
+  </header>
+
+  <div class="card allocation-form">
+    <h3>Create New Allocation</h3>
+    <div class="form-row">
+
+      <div class="form-group">
+        <label>Select Lecturer</label>
+        <select [(ngModel)]="newAllocation.lecturerId">
+          <option [value]="null" disabled selected>Choose a Lecturer...</option>
+          <option *ngFor="let lec of lecturers" [value]="lec.id">{{ lec.name }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Select Course</label>
+        <select [(ngModel)]="newAllocation.courseId">
+          <option [value]="null" disabled selected>Choose a Course...</option>
+          <option *ngFor="let course of courses" [value]="course.id">{{ course.code }} - {{ course.name }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Semester</label>
+        <input type="text" [(ngModel)]="newAllocation.semester" placeholder="e.g., 2026-S1">
+      </div>
+
+      <div class="form-group button-group">
+        <button class="btn btn-primary" (click)="allocate()">Assign Lecturer</button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="allocation-section">
+    <h3>Current Allocations</h3>
+    <div class="table-container">
+      <table>
+        <thead>
+        <tr>
+          <th>Lecturer Name</th>
+          <th>Course</th>
+          <th>Semester</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let alloc of allocations">
+          <td><strong>{{ getLecturerName(alloc.lecturerId) }}</strong></td>
+          <td>{{ getCourseDetails(alloc.courseId) }}</td>
+          <td><span class="semester-badge">{{ alloc.semester }}</span></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

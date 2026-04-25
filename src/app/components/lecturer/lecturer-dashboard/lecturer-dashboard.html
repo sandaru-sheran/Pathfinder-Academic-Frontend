@@ -1,0 +1,22 @@
+<div class="dashboard-container">
+  <header>
+    <h2>My Assigned Courses</h2>
+    <p>Select a course below to view the class roster and manage student grades.</p>
+  </header>
+
+  <div class="course-grid">
+    <div class="course-card" *ngFor="let course of myCourses">
+      <div class="card-header">
+        <span class="badge">{{ course.semester }}</span>
+        <h3>{{ course.code }}</h3>
+      </div>
+      <div class="card-body">
+        <h4>{{ course.name }}</h4>
+        <p>👨‍🎓 {{ course.studentCount }} Enrolled Students</p>
+      </div>
+      <div class="card-footer">
+        <a [routerLink]="['/lecturer/roster', course.id]" class="btn btn-primary">View Roster & Grade</a>
+      </div>
+    </div>
+  </div>
+</div>

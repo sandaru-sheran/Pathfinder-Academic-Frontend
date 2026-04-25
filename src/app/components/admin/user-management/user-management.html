@@ -1,0 +1,47 @@
+<div class="dashboard-container">
+  <header>
+    <h2>User Management</h2>
+    <p>View, suspend, or activate user accounts.</p>
+  </header>
+
+  <div class="table-container">
+    <table>
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Reg No.</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.id }}</td>
+        <td>{{ user.firstName }} {{ user.lastName }}</td>
+        <td>{{ user.registrationNumber }}</td>
+        <td>{{ user.email }}</td>
+        <td><span class="role-badge">{{ user.role }}</span></td>
+
+        <td>
+            <span class="status-badge" [class.active]="user.isEnabled" [class.inactive]="!user.isEnabled">
+              {{ user.isEnabled ? 'Active' : 'Suspended' }}
+            </span>
+        </td>
+
+        <td>
+          <button
+            class="toggle-btn"
+            [class.btn-suspend]="user.isEnabled"
+            [class.btn-activate]="!user.isEnabled"
+            (click)="toggleUserStatus(user)">
+            {{ user.isEnabled ? 'Suspend' : 'Activate' }}
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -18,21 +18,32 @@ export class LoginComponent {
     email: '',
     password: ''
   };
-  
+
   errorMessage: string = '';
 
   constructor(@Inject(AuthService) private authService: AuthService, private router: Router) {}
 
-  onSubmit(): void {
+onSubmit(): void {
     this.authService.login(this.loginData).subscribe({
-      next: (response: string) => {
-        console.log('Login successful! Token saved.');
-        // Redirect the user to their dashboard after logging in
-        this.router.navigate(['/dashboard']); 
+      next: (response:any) => {
+        // response is the token string directly (not an object)
+        localStorage.setItem('jwt_token', response);
+
+        const role = this.authService.getUserRole();
+
+          if (role === 'LECTURER') {
+            this.router.navigate(['/lecturer-dashboard']);
+          } else if (role === 'STUDENT') {
+            this.router.navigate(['/dashboard']);
+          } else if (role === 'ADMIN') {
+            this.router.navigate(['/admin']);
+          } else {
+            this.router.navigate(['/login']);
+          }
       },
-      error: (err: any) => {
+      error: (err) => {
         console.error('Login failed', err);
-        this.errorMessage = 'Invalid email or password. Please try again.';
+        this.errorMessage = 'Invalid email or password';
       }
     });
   }

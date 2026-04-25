@@ -1,0 +1,41 @@
+<div class="dashboard-container">
+  <header class="dashboard-header">
+    <h2>Admin Control Center</h2>
+    <p>Welcome to the system administration dashboard. Select a module to manage the university data.</p>
+  </header>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <h3>{{ stats.totalUsers }}</h3>
+      <p>Total Registered Users</p>
+    </div>
+    <div class="stat-card">
+      <h3>{{ stats.activePrograms }}</h3>
+      <p>Active Programs</p>
+    </div>
+    <div class="stat-card">
+      <h3>{{ stats.totalCourses }}</h3>
+      <p>Total Courses</p>
+    </div>
+  </div>
+
+  <div class="modules-grid">
+    <a routerLink="/admin/users" class="module-card">
+      <div class="module-icon">👥</div>
+      <h3>User Management</h3>
+      <p>Activate or suspend student and lecturer accounts.</p>
+    </a>
+
+    <a routerLink="/admin/programs" class="module-card">
+      <div class="module-icon">📚</div>
+      <h3>Program & Course Manager</h3>
+      <p>Create degree programs and build the course catalog.</p>
+    </a>
+
+    <a routerLink="/admin/allocations" class="module-card">
+      <div class="module-icon">👨‍🏫</div>
+      <h3>Lecturer Allocation</h3>
+      <p>Assign lecturers to specific courses and semesters.</p>
+    </a>
+  </div>
+</div>
