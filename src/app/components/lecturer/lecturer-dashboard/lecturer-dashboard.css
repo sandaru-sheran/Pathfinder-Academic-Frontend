@@ -87,3 +87,25 @@ header {
 .btn-primary:hover {
   background-color: #0056b3;
 }
+
+/* Debug info styling */
+.debug-info {
+  grid-column: 1 / -1;
+  background-color: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  color: #856404;
+  font-size: 14px;
+}
+
+.debug-info p {
+  margin: 5px 0;
+  color: #856404;
+}
+
+.debug-info p:first-child {
+  font-weight: bold;
+  margin-bottom: 10px;
+}

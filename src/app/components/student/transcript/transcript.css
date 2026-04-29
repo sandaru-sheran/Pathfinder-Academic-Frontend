@@ -65,3 +65,8 @@ th { background-color: #f8f9fa; font-weight: 600; color: #333; }
 .grade-badge.A { background-color: #28a745; }
 .grade-badge.B { background-color: #17a2b8; }
 .grade-badge.C { background-color: #ffc107; color: #333;}
+
+.badge-na {
+  background-color: #6c757d;
+  color: white;
+}

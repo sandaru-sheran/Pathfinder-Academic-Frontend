@@ -19,7 +19,11 @@
         <td>{{ result.semester }}</td>
         <td><strong>{{ result.courseCode }}</strong></td>
         <td>{{ result.courseName }}</td>
-        <td><span class="grade-badge" [ngClass]="result.grade.charAt(0)">{{ result.grade }}</span></td>
+        <td>
+          <span class="grade-badge" [ngClass]="(result.grade && result.grade !== 'null' && result.grade.trim() !== '') ? result.grade.charAt(0) : 'badge-na'">
+            {{ (result.grade && result.grade !== 'null' && result.grade.trim() !== '') ? result.grade : 'N/A' }}
+          </span>
+        </td>
       </tr>
       </tbody>
     </table>

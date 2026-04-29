@@ -1,31 +1,41 @@
 <div class="login-container">
-  <h2>System Login</h2>
-  
-  <form (ngSubmit)="onSubmit()">
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input 
-        type="email" 
-        id="email" 
-        name="email" 
-        [(ngModel)]="loginData.email" 
-        required>
+  <div class="login-card">
+    <h2>Pathfinder Academic</h2>
+    <p>Login to continue</p>
+
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          [(ngModel)]="loginData.email"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          name="password"
+          [(ngModel)]="loginData.password"
+          required
+        />
+      </div>
+
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+
+      <button type="submit" class="btn-login">Login</button>
+    </form>
+
+    <div class="register-link">
+      <p>Don't have an account? <a routerLink="/register">Register here</a></p>
     </div>
-
-    <div class="form-group">
-      <label for="password">Password</label>
-      <input 
-        type="password" 
-        id="password" 
-        name="password" 
-        [(ngModel)]="loginData.password" 
-        required>
-    </div>
-
-    <button type="submit">Login</button>
-  </form>
-
-  <p>Don't have an account? <a [routerLink]="['/register']">Register here</a></p>
-
-  <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+  </div>
 </div>
+<!-- Added this comment to force re-evaluation of the file. -->

@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -21,67 +21,53 @@ export class ClassRosterComponent implements OnInit {
   // Local interface for display
   students: Array<{ enrollmentId: number; regNumber: string; name: string; grade: string }> = [];
 
-  constructor(
-    private route: ActivatedRoute,
-    private authService: AuthService,
-    private cdr: ChangeDetectorRef
-  ) {}
+  constructor(private route: ActivatedRoute, private authService: AuthService) {}
 
   ngOnInit(): void {
     // Grab the course ID from the URL (e.g., /lecturer/roster/3)
     this.courseId = this.route.snapshot.paramMap.get('courseId');
-    console.log('Route params:', this.route.snapshot.params);
-    console.log('Course ID from URL:', this.courseId);
 
     if (this.courseId) {
       this.loadRoster();
-    } else {
-      console.error('No courseId found in route parameters!');
     }
   }
 
   loadRoster(): void {
-    console.log('Loading roster for course:', this.courseId);
     const courseIdNum = parseInt(this.courseId || '0');
     if (courseIdNum > 0) {
       this.authService.getCourseRoster(courseIdNum)
         .subscribe({
           next: (data) => {
-            console.log('Roster data from backend:', data);
             this.students = data.map(student => ({
               enrollmentId: student.enrolmentId,
               regNumber: student.registerNumber,
               name: student.name,
               grade: student.grade
             }));
-            console.log('Mapped students:', this.students);
-            this.cdr.detectChanges();
           },
           error: (err) => {
             console.error('Failed to load roster', err);
-            // Fallback to dummy data for development
+            // Fallback to dummy data
             this.students = [
               { enrollmentId: 101, regNumber: 'IT241001', name: 'Alice Johnson', grade: 'A' },
               { enrollmentId: 102, regNumber: 'IT241002', name: 'Bob Smith', grade: 'B+' },
               { enrollmentId: 103, regNumber: 'IT241003', name: 'Charlie Brown', grade: '' }
             ];
-            this.cdr.detectChanges();
           }
         });
     }
   }
 
   saveGrade(student: any) {
-    console.log('Saving grade for student:', student);
     const gradeData: AssignGradeDTO = {
-      grade: student.grade.toUpperCase() // Convert grade to uppercase
+      grade: student.grade
     };
 
     this.authService.assignGrade(student.enrollmentId, gradeData)
       .subscribe({
         next: (response) => {
           console.log('Grade saved successfully:', response);
-          alert(`Grade '${gradeData.grade}' saved for ${student.name}!`);
+          alert(`Grade '${student.grade}' saved for ${student.name}!`);
         },
         error: (err) => {
           console.error('Failed to save grade', err);

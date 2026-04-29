@@ -1,66 +1,130 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-export interface Program {
-  id: number;
-  name: string;
-  code: string; // e.g., "BIT"
-}
-
-export interface Course {
-  id: number;
-  name: string;
-  code: string; // e.g., "IT101"
-  programId: number;
-}
+import { AuthService } from '../../../services/auth';
+import { ProgramDTO } from '../../../models/program';
+import { CourseDTO } from '../../../models/course';
 
 @Component({
   selector: 'app-program-course-manager',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './program-course-manager.html',
-  styleUrls: ['./program-course-manager.css']
+  styleUrls: ['./program-course-manager.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush // Added OnPush strategy
 })
-export class ProgramCourseManagerComponent {
+export class ProgramCourseManagerComponent implements OnInit {
 
-  // Dummy data
-  programs: Program[] = [
-    { id: 1, name: 'Bachelor of Information Technology', code: 'BIT' },
-    { id: 2, name: 'Bachelor of Science in Engineering', code: 'BSE' }
-  ];
-
-  courses: Course[] = [
-    { id: 1, name: 'Java Programming', code: 'IT101', programId: 1 },
-    { id: 2, name: 'Database Management Systems', code: 'IT102', programId: 1 }
-  ];
+  programs: ProgramDTO[] = [];
+  courses: CourseDTO[] = [];
 
   // Form states
-  newProgram = { name: '', code: '' };
-  newCourse = { name: '', code: '', programId: null };
+  newProgram = { title: '', code: '' };
+  newCourse = { name: '', code: '', credits: 0, programId: null };
+
+  constructor(
+    private authService: AuthService,
+    private cdr: ChangeDetectorRef // Injected ChangeDetectorRef
+  ) {}
+
+  ngOnInit(): void {
+    this.loadData();
+  }
+
+  loadData(): void {
+    // Load programs
+    this.authService.getAllPrograms()
+      .subscribe({
+        next: (data) => {
+          this.programs = data;
+          this.cdr.markForCheck(); // Manually trigger change detection
+        },
+        error: (err) => {
+          console.error('Failed to load programs', err);
+          // Fallback to dummy data
+          this.programs = [
+            { id: 1, title: 'Bachelor of Information Technology', code: 'BIT' },
+            { id: 2, title: 'Bachelor of Science in Engineering', code: 'BSE' }
+          ];
+          this.cdr.markForCheck(); // Manually trigger change detection for dummy data
+        }
+      });
+
+    // Load courses
+    this.authService.getAllCourses()
+      .subscribe({
+        next: (data) => {
+          this.courses = data;
+          this.cdr.markForCheck(); // Manually trigger change detection
+        },
+        error: (err) => {
+          console.error('Failed to load courses', err);
+          // Fallback to dummy data
+          this.courses = [
+            { id: 1, name: 'Java Programming', code: 'IT101', credits: 3, programId: 1 },
+            { id: 2, name: 'Database Management Systems', code: 'IT102', credits: 3, programId: 1 }
+          ];
+          this.cdr.markForCheck(); // Manually trigger change detection for dummy data
+        }
+      });
+  }
 
   addProgram() {
-    if (this.newProgram.name && this.newProgram.code) {
-      const newId = this.programs.length + 1;
-      this.programs.push({ id: newId, ...this.newProgram });
-      console.log('Sending new Program to Spring Boot:', this.newProgram);
-      this.newProgram = { name: '', code: '' }; // reset form
+    if (this.newProgram.title && this.newProgram.code) {
+      const programDto: ProgramDTO = {
+        title: this.newProgram.title,
+        code: this.newProgram.code
+      };
+
+      this.authService.addProgram(programDto)
+        .subscribe({
+          next: (response) => {
+            console.log('Program created:', response);
+            this.programs.push(response);
+            alert('Program added successfully!');
+            this.newProgram = { title: '', code: '' };
+            this.cdr.markForCheck(); // Manually trigger change detection
+          },
+          error: (err) => {
+            console.error('Failed to create program', err);
+            alert('Failed to create program');
+            this.cdr.markForCheck(); // Manually trigger change detection for error state
+          }
+        });
     }
   }
 
   addCourse() {
-    if (this.newCourse.name && this.newCourse.code && this.newCourse.programId) {
-      const newId = this.courses.length + 1;
-      // Convert programId string from select input to a number
-      const programIdNum = Number(this.newCourse.programId);
-      this.courses.push({ id: newId, name: this.newCourse.name, code: this.newCourse.code, programId: programIdNum });
-      console.log('Sending new Course to Spring Boot:', this.newCourse);
-      this.newCourse = { name: '', code: '', programId: null }; // reset form
+    if (this.newCourse.name && this.newCourse.code && this.newCourse.programId && this.newCourse.credits > 0) {
+      const courseDto: CourseDTO = {
+        name: this.newCourse.name,
+        code: this.newCourse.code,
+        credits: this.newCourse.credits,
+        programId: Number(this.newCourse.programId)
+      };
+
+      this.authService.createCourse(courseDto)
+        .subscribe({
+          next: (response) => {
+            console.log('Course created:', response);
+            this.courses.push(response);
+            alert('Course added successfully!');
+            this.newCourse = { name: '', code: '', credits: 0, programId: null };
+            this.cdr.markForCheck(); // Manually trigger change detection
+          },
+          error: (err) => {
+            console.error('Failed to create course', err);
+            alert('Failed to create course');
+            this.cdr.markForCheck(); // Manually trigger change detection for error state
+          }
+        });
+    } else {
+      alert('Please fill out all fields with valid data');
     }
   }
 
   getProgramName(programId: number): string {
     const program = this.programs.find(p => p.id === programId);
-    return program ? program.name : 'Unknown Program';
+    return program ? program.title : 'Unknown Program';
   }
 }

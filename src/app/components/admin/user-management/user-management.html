@@ -26,18 +26,18 @@
         <td><span class="role-badge">{{ user.role }}</span></td>
 
         <td>
-            <span class="status-badge" [class.active]="user.isEnabled" [class.inactive]="!user.isEnabled">
-              {{ user.isEnabled ? 'Active' : 'Suspended' }}
+            <span class="status-badge" [class.inactive]="user.isEnabled" [class.active]="!user.isEnabled">
+              {{ user.isEnabled ? 'Suspended' : 'Active' }}
             </span>
         </td>
 
         <td>
           <button
             class="toggle-btn"
-            [class.btn-suspend]="user.isEnabled"
-            [class.btn-activate]="!user.isEnabled"
+            [class.btn-suspend]="!user.isEnabled"
+            [class.btn-activate]="user.isEnabled"
             (click)="toggleUserStatus(user)">
-            {{ user.isEnabled ? 'Suspend' : 'Activate' }}
+            {{ user.isEnabled ? 'Activate' : 'Suspend' }}
           </button>
         </td>
       </tr>

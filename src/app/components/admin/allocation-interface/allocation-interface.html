@@ -10,7 +10,7 @@
 
       <div class="form-group">
         <label>Select Lecturer</label>
-        <select [(ngModel)]="newAllocation.lecturerId">
+        <select name="lectureId" [(ngModel)]="newAllocation.lectureId">
           <option [value]="null" disabled selected>Choose a Lecturer...</option>
           <option *ngFor="let lec of lecturers" [value]="lec.id">{{ lec.name }}</option>
         </select>
@@ -18,7 +18,7 @@
 
       <div class="form-group">
         <label>Select Course</label>
-        <select [(ngModel)]="newAllocation.courseId">
+        <select name="courseId" [(ngModel)]="newAllocation.courseId">
           <option [value]="null" disabled selected>Choose a Course...</option>
           <option *ngFor="let course of courses" [value]="course.id">{{ course.code }} - {{ course.name }}</option>
         </select>
@@ -26,7 +26,7 @@
 
       <div class="form-group">
         <label>Semester</label>
-        <input type="text" [(ngModel)]="newAllocation.semester" placeholder="e.g., 2026-S1">
+        <input type="text" name="semester" [(ngModel)]="newAllocation.semester" placeholder="e.g., 2026-S1">
       </div>
 
       <div class="form-group button-group">
@@ -49,7 +49,7 @@
         </thead>
         <tbody>
         <tr *ngFor="let alloc of allocations">
-          <td><strong>{{ getLecturerName(alloc.lecturerId) }}</strong></td>
+          <td><strong>{{ getLecturerName(alloc.lectureId) }}</strong></td>
           <td>{{ getCourseDetails(alloc.courseId) }}</td>
           <td><span class="semester-badge">{{ alloc.semester }}</span></td>
         </tr>

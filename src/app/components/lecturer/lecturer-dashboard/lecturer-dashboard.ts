@@ -1,28 +1,49 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-
-export interface AssignedCourse {
-  id: number; // The Allocation ID or Course ID
-  code: string;
-  name: string;
-  semester: string;
-  studentCount: number;
-}
+import { AuthService } from '../../../services/auth';
+import { LecturerCoursesDTO } from '../../../models/lecturer-courses';
 
 @Component({
   selector: 'app-lecturer-dashboard',
   standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './lecturer-dashboard.html',
-  styleUrls: ['./lecturer-dashboard.css']
+  styleUrls: ['./lecturer-dashboard.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush // Added OnPush strategy
 })
-export class LecturerDashboardComponent {
+export class LecturerDashboardComponent implements OnInit {
 
-  // Dummy data representing the courses assigned to the logged-in lecturer
-  myCourses: AssignedCourse[] = [
-    { id: 1, code: 'IT101', name: 'Java Programming', semester: '2026-S1', studentCount: 45 },
-    { id: 3, code: 'IT201', name: 'Advanced Frameworks (Spring Boot)', semester: '2026-S1', studentCount: 38 }
-  ];
+  // Local interface for component display
+  myCourses: Array<{ id: number; code: string; name: string; semester: string; studentCount: number }> = [];
+
+  constructor(
+    private authService: AuthService,
+    private cdr: ChangeDetectorRef // Injected ChangeDetectorRef
+  ) {}
+
+  ngOnInit(): void {
+    this.loadCourses();
+  }
+
+  loadCourses(): void {
+    this.authService.getLecturerCourses()
+      .subscribe({
+        next: (data) => {
+          this.myCourses = data.map(course => ({
+            id: course.courseId,
+            code: course.courseCode,
+            name: course.courseName,
+            semester: course.semester,
+            studentCount: course.studentCount
+          }));
+          this.cdr.markForCheck(); // Manually trigger change detection
+        },
+        error: (err) => {
+          console.error('Failed to load courses', err);
+          this.cdr.markForCheck(); // Manually trigger change detection for error state
+        }
+      });
+  }
 
 }

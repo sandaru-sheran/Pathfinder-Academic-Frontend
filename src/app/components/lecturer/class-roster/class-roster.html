@@ -20,11 +20,11 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let student of students">
+      <tr *ngFor="let student of students; let i = index">
         <td>{{ student.regNumber }}</td>
         <td>{{ student.name }}</td>
         <td>
-          <input type="text" [(ngModel)]="student.grade" placeholder="e.g., A, B, 85" class="grade-input">
+          <input type="text" [name]="'grade_' + i" [(ngModel)]="student.grade" placeholder="e.g., A, B, 85" class="grade-input">
         </td>
         <td>
           <button class="btn-save" (click)="saveGrade(student)">Save Result</button>

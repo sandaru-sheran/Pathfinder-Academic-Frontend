@@ -18,5 +18,10 @@
         <a [routerLink]="['/lecturer/roster', course.id]" class="btn btn-primary">View Roster & Grade</a>
       </div>
     </div>
+
+    <div *ngIf="myCourses.length === 0" class="debug-info">
+      <p>No courses loaded yet. Check console for details.</p>
+      <p>Array length: {{ myCourses.length }}</p>
+    </div>
   </div>
 </div>
