@@ -13,6 +13,7 @@ import { AuthService } from '../../../services/auth';
 })
 export class AdminDashboardComponent implements OnInit {
 
+  adminName: string = '';
   stats = {
     totalUsers: 0,
     activePrograms: 0,
@@ -25,6 +26,7 @@ export class AdminDashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.adminName = this.authService.getUserName() || 'Admin';
     this.loadStats();
   }
 

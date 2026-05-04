@@ -1,1 +1,6 @@
+<button class="theme-toggle" (click)="toggleTheme()" [attr.aria-label]="isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'">
+  <span *ngIf="!isDarkMode">🌙</span>
+  <span *ngIf="isDarkMode">☀️</span>
+</button>
+
 <router-outlet></router-outlet>

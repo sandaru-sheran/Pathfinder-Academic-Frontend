@@ -1,40 +1,62 @@
-<div class="login-container">
-  <div class="login-card">
-    <h2>Pathfinder Academic</h2>
-    <p>Login to continue</p>
-
-    <form (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          [(ngModel)]="loginData.email"
-          required
-        />
+<div class="login-page">
+  <div class="animated-bg">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  <div class="login-container">
+    <div class="login-card">
+      <div class="logo-area">
+        <div class="logo-icon">🎓</div>
+        <h2>Pathfinder Academic</h2>
       </div>
+      <p>Please enter your credentials to login</p>
 
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input
-          id="password"
-          type="password"
-          name="password"
-          [(ngModel)]="loginData.password"
-          required
-        />
+      <form (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <div class="input-wrapper">
+            <span class="input-icon">📧</span>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              [(ngModel)]="loginData.email"
+              placeholder="name@university.edu"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-wrapper">
+            <span class="input-icon">🔒</span>
+            <input
+              id="password"
+              type="password"
+              name="password"
+              [(ngModel)]="loginData.password"
+              placeholder="••••••••"
+              required
+            />
+          </div>
+        </div>
+
+        <div *ngIf="errorMessage" class="error-message">
+          <span class="error-icon">⚠️</span> {{ errorMessage }}
+        </div>
+
+        <button type="submit" class="btn-login">
+          <span>Sign In</span>
+          <span class="arrow">→</span>
+        </button>
+      </form>
+
+      <div class="register-link">
+        <p>New to Pathfinder? <a routerLink="/register">Create an account</a></p>
       </div>
-
-      <div *ngIf="errorMessage" class="error-message">
-        {{ errorMessage }}
-      </div>
-
-      <button type="submit" class="btn-login">Login</button>
-    </form>
-
-    <div class="register-link">
-      <p>Don't have an account? <a routerLink="/register">Register here</a></p>
     </div>
   </div>
 </div>

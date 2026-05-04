@@ -14,6 +14,8 @@ import { LecturerCoursesDTO } from '../../../models/lecturer-courses';
 })
 export class LecturerDashboardComponent implements OnInit {
 
+  lecturerName: string = '';
+
   // Local interface for component display
   myCourses: Array<{ id: number; code: string; name: string; semester: string; studentCount: number }> = [];
 
@@ -23,6 +25,7 @@ export class LecturerDashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.lecturerName = this.authService.getUserName() || 'Lecturer';
     this.loadCourses();
   }
 

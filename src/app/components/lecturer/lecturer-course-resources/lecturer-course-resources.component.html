@@ -1,0 +1,49 @@
+<div class="container">
+  <div class="back-nav">
+    <a routerLink="/lecturer-dashboard" class="back-link">← Back to Dashboard</a>
+  </div>
+
+  <header>
+    <div>
+      <h2>Manage Course Resources</h2>
+      <p style="color: var(--text-muted); margin: 0.25rem 0 0 0;">Add video resources to your assigned courses.</p>
+    </div>
+  </header>
+
+  <div class="course-list-section">
+    <h3 style="margin-bottom: 1.5rem; font-size: 1.25rem;">My Assigned Courses</h3>
+    <div class="table-container">
+      <table>
+        <thead>
+        <tr>
+          <th>Course Code</th>
+          <th>Course Name</th>
+          <th>Semester</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <ng-container *ngFor="let course of myCourses">
+          <tr>
+            <td><strong>{{ course.code }}</strong></td>
+            <td>{{ course.name }}</td>
+            <td>{{ course.semester }}</td>
+            <td>
+              <button class="btn btn-sm btn-primary" (click)="showAddResourceForm(course.id)">Add Resource</button>
+            </td>
+          </tr>
+          <tr *ngIf="showResourceFormForCourseId === course.id">
+            <td colspan="4">
+              <app-add-resource
+                [courseId]="course.id"
+                (resourceAdded)="onResourceAdded($event)"
+                (cancel)="hideAddResourceForm()">
+              </app-add-resource>
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -14,6 +14,7 @@ import { StudentEnrollDTO } from '../models/student-enroll';
 import { TranscriptDTO } from '../models/transcript';
 import { UserDTO } from '../models/user';
 import { AllocationDTO } from '../models/allocation';
+import { CourseResourceDTO } from '../models/course-resource';
 
 
 export interface ToggleStatusDTO {
@@ -126,10 +127,24 @@ export class AuthService {
     return this.http.get<TranscriptDTO[]>(`${this.studentApiUrl}/transcript`);
   }
 
+  getStudentResources(courseId: number): Observable<CourseResourceDTO[]> {
+    return this.http.get<CourseResourceDTO[]>(`${this.studentApiUrl}/${courseId}/get-resouse`);
+  }
+
   // ==================== ALLOCATION/LECTURER ASSIGNMENT ====================
 
   lectureAllocation(allocationDto: AllocationDTO): Observable<AllocationDTO> {
     return this.http.post<AllocationDTO>(`${this.adminApiUrl}/lecturer-allocation`, allocationDto);
+  }
+
+  // ==================== COURSE RESOURCE ENDPOINTS ====================
+
+  addAdminResource(resource: CourseResourceDTO): Observable<CourseResourceDTO> {
+    return this.http.post<CourseResourceDTO>(`${this.adminApiUrl}/add-resouse`, resource);
+  }
+
+  addLecturerResource(resource: CourseResourceDTO): Observable<CourseResourceDTO> {
+    return this.http.post<CourseResourceDTO>(`${this.lecturerApiUrl}/add-resouse`, resource);
   }
 
   // ==================== TOKEN & AUTH UTILITIES ====================
@@ -169,6 +184,23 @@ export class AuthService {
       }
       if (decodedToken.authorities && Array.isArray(decodedToken.authorities)) {
         return decodedToken.authorities[0];
+      }
+    }
+    return null;
+  }
+
+  // Extract the user's name
+  getUserName(): string | null {
+    const decodedToken = this.getDecodedToken();
+    if (decodedToken) {
+      if (decodedToken.firstName && decodedToken.lastName) {
+        return `${decodedToken.firstName} ${decodedToken.lastName}`;
+      }
+      if (decodedToken.name) {
+        return decodedToken.name;
+      }
+      if (decodedToken.sub) {
+        return decodedToken.sub; // Fallback to email/username
       }
     }
     return null;

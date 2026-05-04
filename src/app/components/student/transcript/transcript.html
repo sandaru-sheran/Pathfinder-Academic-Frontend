@@ -1,4 +1,4 @@
-<div class="dashboard-container">
+<div class="transcript-container">
   <header>
     <h2>Academic Transcript</h2>
     <p>Review your official grades and academic history.</p>
@@ -9,16 +9,17 @@
       <thead>
       <tr>
         <th>Semester</th>
-        <th>Course Code</th>
-        <th>Course Name</th>
-        <th>Official Grade</th>
+        <th>Course</th>
+        <th>Grade</th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let result of results">
         <td>{{ result.semester }}</td>
-        <td><strong>{{ result.courseCode }}</strong></td>
-        <td>{{ result.courseName }}</td>
+        <td>
+          <div style="font-weight: 600;">{{ result.courseName }}</div>
+          <div style="font-size: 0.875rem; color: var(--text-muted);">{{ result.courseCode }}</div>
+        </td>
         <td>
           <span class="grade-badge" [ngClass]="(result.grade && result.grade !== 'null' && result.grade.trim() !== '') ? result.grade.charAt(0) : 'badge-na'">
             {{ (result.grade && result.grade !== 'null' && result.grade.trim() !== '') ? result.grade : 'N/A' }}
@@ -27,5 +28,12 @@
       </tr>
       </tbody>
     </table>
+  </div>
+
+  <div class="gpa-summary">
+    <div class="gpa-card">
+      <span class="gpa-label">Cumulative GPA</span>
+      <span class="gpa-value">3.85</span>
+    </div>
   </div>
 </div>

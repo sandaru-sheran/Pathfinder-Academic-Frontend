@@ -1,7 +1,7 @@
-<div class="dashboard-container">
+<div class="container">
   <header>
     <h2>Program & Course Manager</h2>
-    <p>Define the university curriculum by creating programs and assigning courses to them.</p>
+    <p style="color: var(--text-muted); margin-top: 0.5rem;">Define the university curriculum by creating programs and assigning courses to them.</p>
   </header>
 
   <div class="manager-grid">
@@ -54,14 +54,29 @@
           <th>Course Code</th>
           <th>Course Name</th>
           <th>Associated Program</th>
+          <th>Actions</th>
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let course of courses">
-          <td><strong>{{ course.code }}</strong></td>
-          <td>{{ course.name }}</td>
-          <td>{{ getProgramName(course.programId) }}</td>
-        </tr>
+        <ng-container *ngFor="let course of courses">
+          <tr>
+            <td><strong>{{ course.code }}</strong></td>
+            <td>{{ course.name }}</td>
+            <td>{{ getProgramName(course.programId) }}</td>
+            <td>
+              <button class="btn btn-sm btn-secondary" (click)="showAddResourceForm(course.id)">Add Resource</button>
+            </td>
+          </tr>
+          <tr *ngIf="showResourceFormForCourseId === course.id">
+            <td colspan="4">
+              <app-add-resource
+                [courseId]="course.id"
+                (resourceAdded)="onResourceAdded($event)"
+                (cancel)="hideAddResourceForm()">
+              </app-add-resource>
+            </td>
+          </tr>
+        </ng-container>
         </tbody>
       </table>
     </div>

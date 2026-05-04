@@ -1,0 +1,17 @@
+<div class="add-resource-card">
+  <h3>Add New Course Resource</h3>
+  <form (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="title">Title (Optional)</label>
+      <input id="title" type="text" [(ngModel)]="newResource.title" name="title" placeholder="e.g., Week 1 Lecture">
+    </div>
+    <div class="form-group">
+      <label for="videoId">Video ID or YouTube URL</label>
+      <input id="videoId" type="text" [(ngModel)]="newResource.videoId" name="videoId" required placeholder="e.g., dQw4w9WgXcQ or https://www.youtube.com/watch?v=dQw4w9WgXcQ">
+    </div>
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Add Resource</button>
+      <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+    </div>
+  </form>
+</div>

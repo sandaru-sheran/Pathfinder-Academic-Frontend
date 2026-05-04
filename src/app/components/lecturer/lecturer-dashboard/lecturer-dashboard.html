@@ -1,7 +1,12 @@
 <div class="dashboard-container">
-  <header>
-    <h2>My Assigned Courses</h2>
-    <p>Select a course below to view the class roster and manage student grades.</p>
+  <header class="welcome-banner">
+    <div class="banner-content">
+      <h2>Welcome back, {{ lecturerName }}!</h2>
+      <p>Manage your courses and student academic performance.</p>
+    </div>
+    <div class="quick-actions">
+      <a routerLink="/lecturer/resources" class="btn btn-outline">Course Resources</a>
+    </div>
   </header>
 
   <div class="course-grid">

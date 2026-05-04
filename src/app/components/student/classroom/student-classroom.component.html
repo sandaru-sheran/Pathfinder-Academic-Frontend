@@ -1,0 +1,49 @@
+<div class="classroom-container">
+  <div class="back-nav">
+    <a routerLink="/dashboard" class="back-link">← Back to Dashboard</a>
+  </div>
+
+  <header>
+    <h2>Classroom: {{ courseName }}</h2>
+    <p>Explore your course resources.</p>
+  </header>
+
+  <div class="classroom-content">
+    <div class="video-player-section">
+      <div *ngIf="selectedVideoUrl" class="video-player">
+        <iframe
+          [src]="selectedVideoUrl"
+          frameborder="0"
+          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+      <div class="video-title" *ngIf="selectedVideoUrl && selectedVideoTitle">
+        <h3>{{ selectedVideoTitle }}</h3>
+      </div>
+      <div *ngIf="!selectedVideoUrl && resources.length > 0" class="no-video-selected">
+        <p>Select a video from the playlist to start watching.</p>
+      </div>
+      <div *ngIf="resources.length === 0" class="no-resources">
+        <p>No resources available for this course yet.</p>
+      </div>
+    </div>
+
+    <div class="video-playlist-section">
+      <h3>Playlist</h3>
+      <div class="playlist-items">
+        <div
+          *ngFor="let resource of resources"
+          class="playlist-item"
+          [class.active]="selectedVideoTitle === (resource.title || 'Untitled Video')"
+          (click)="selectVideo(resource)">
+          <img [src]="getYouTubeThumbnail(resource.videoId)" alt="Video Thumbnail">
+          <div class="item-details">
+            <h4>{{ resource.title || 'Untitled Video' }}</h4>
+            <p>Click to watch</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

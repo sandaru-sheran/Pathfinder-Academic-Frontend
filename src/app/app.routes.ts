@@ -7,10 +7,12 @@ import { roleGuard } from './guards/role-guard';
 import { DashboardComponent } from './components/student/dashboard/dashboard';
 import { CourseCatalogComponent } from './components/student/course-catalog/course-catalog';
 import { TranscriptComponent } from './components/student/transcript/transcript';
+import { StudentClassroomComponent } from './components/student/classroom/student-classroom.component';
 
 // Lecturer Components
 import { LecturerDashboardComponent } from './components/lecturer/lecturer-dashboard/lecturer-dashboard';
 import { ClassRosterComponent } from './components/lecturer/class-roster/class-roster';
+import { LecturerCourseResourcesComponent } from './components/lecturer/lecturer-course-resources/lecturer-course-resources.component'; // Import new component
 
 // Admin Components
 import { AdminDashboardComponent } from './components/admin/admin-dashboard/admin-dashboard';
@@ -66,6 +68,12 @@ export const routes: Routes = [
     canActivate: [roleGuard],
     data: { expectedRole: 'LECTURER' }
   },
+  {
+    path: 'lecturer/resources', // New route for lecturer resources
+    component: LecturerCourseResourcesComponent,
+    canActivate: [roleGuard],
+    data: { expectedRole: 'LECTURER' }
+  },
 
   // ==========================================
   // 🎓 STUDENT ROUTES
@@ -85,6 +93,12 @@ export const routes: Routes = [
   {
     path: 'student/transcript',
     component: TranscriptComponent,
+    canActivate: [roleGuard],
+    data: { expectedRole: 'STUDENT' }
+  },
+  {
+    path: 'student/classroom/:courseId',
+    component: StudentClassroomComponent,
     canActivate: [roleGuard],
     data: { expectedRole: 'STUDENT' }
   },
